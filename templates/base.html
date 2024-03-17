@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='CSS/styles.css') }}">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+	<title>{% block title%}{% endblock %}</title>
+</head>
+<header>
+	<ul class="menu">
+		<li>
+			<a href="/" class="menu home">Accueil</a>
+		</li>
+        <li>
+        	<a href="/todolist" class="menu">Tout doux list</a>
+        </li>
+        <li>
+        	<a href="/contact" class="menu">Contact</a>
+        </li>
+        {% if not session.get("account") %}
+			<li>
+				<a href="/inscription" class="menu">Inscription</a>
+			</li>
+			<li>
+				<a href="/connexion" class="menu">Connexion</a>
+			</li>
+		{% else %}
+			<li class="profile">
+				<img class="profile" src="{{ url_for('static', filename='img/logos/default_profile.png') }}">
+				<ul class="menu-profile">
+					<li><a href="#">Options</a></li>
+					<li><a href="#">Se déconnecter</a></li>
+					<li><a href="#">Se désinscrire</a></li>
+				</ul>
+			</li>
+		{% endif %}
+	</ul>
+</header>
+<body>
+	{% block content%}{% endblock %}
+</body>
+<script>
+function toggleHiddenContent(clickableElement, hiddenElement) {
+  if (!clickableElement || !hiddenElement) {
+    console.error('Les éléments spécifiés ne peuvent pas être trouvés.');
+    return;
+  }
+
+  clickableElement.addEventListener("click", function() {
+    if (hiddenElement.style.display === "none") {
+      hiddenElement.style.display = "block";
+    } else {
+      hiddenElement.style.display = "none";
+    }
+  });
+}
+var clickableElement = document.querySelector("img.profile");
+var hiddenElement = document.querySelector("ul.menu-profile");
+toggleHiddenContent(clickableElement, hiddenElement);
+</script>
+</html>

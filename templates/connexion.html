@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+
+{% block title %}Connexion{% endblock %}
+
+{% block content %}
+<div class="inscription">
+    <form action="/connexion/" method="POST">
+        <div class="logo">TDL</div>
+        <div class="background">
+            <p>Tout doux liste</p>
+        </div>
+        <div class="input">
+            <p class="email">Email</p>
+            <input class="email" type="email" name="email" placeholder="Email"></input>
+        </div>
+        <div class="input input-password">
+            <p class="password">Mot de passe</p>
+            <div class="show-password">
+                <input class="password" type="password" name="password" placeholder="Mot de passe"></input>
+                <div class="password-icon">
+                    <i data-feather="eye"></i>
+                    <i data-feather="eye-off"></i>
+                </div>
+            </div>
+        </div>
+        <div class="checkbox-container">
+            <div class="checkbox checkbox-off"></div>
+            <label>Rester connecté</label>
+        </div>
+        <div class="checkbox-container">
+        <input type="hidden" class="input-checkbox" name="checkbox" value="false"></input>
+        <a href="/login/google/">
+            <img class="google-logo" src="{{ url_for('static', filename='img/logos/google.png') }}">
+        </a>
+        {% if error %}
+            <p id="messageErreur">{{error}}</p>
+        {% endif %}
+        <button class="submit" type="submit">Envoyer</button>
+    </form>
+</div>
+<script src="https://unpkg.com/feather-icons"></script>
+<script src="{{ url_for('static', filename='JS/viewer_password.js') }}"></script>
+<script src="{{ url_for('static', filename='JS/manage_checkbox.js') }}"></script>
+{% endblock %}

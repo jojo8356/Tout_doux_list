@@ -1,0 +1,287 @@
+$color_1: white;
+$color_2: #C034ED;
+$font-family_1: "Arial", sans-serif;
+$font-family_2: "Tangerine", "Arial", sans-serif;
+$background-color_1: #BC16F1;
+$background-color_2: #8235A1;
+$background-color_3: #C034ED;
+$background-color_4: white;
+
+@import "https://fonts.googleapis.com/css2?family=Tangerine&display=swap";
+@import url('https://fonts.cdnfonts.com/css/verdana');
+
+@mixin no_copy_past(){
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+@mixin center_all(){
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
+/*# sourceMappingURL=styles.css.map */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+ul.menu {
+    background-color: $background-color_1;
+    display: flex;
+    justify-content: space-around;
+    height: 7.5vh;
+
+    & li {
+        display: inline-block;
+        font-family: $font-family_1;
+        font-size: 150%;
+        font-weight: bold;
+        background-color: $background-color_1;
+
+        & a {
+            text-decoration: none;
+            color: $color_1;
+            position: relative;
+            top: 8.5px;
+        }
+    }
+
+    & li.profile{
+        & img{
+            max-width: 40px;
+            height: auto;
+            margin-left: 30px;
+            border-radius: 100%;
+            background-color: $background-color_1;
+            position: relative;
+            top: 3px;
+            cursor: pointer;
+        }
+
+        & .menu-profile{
+            list-style-type: none;
+            position: relative;
+            bottom: 2.5px;
+            border-radius: 20px;
+            text-align: center;
+            background-color: $background-color_1;
+            justify-content: space-around;
+            padding: 5px 10px;
+
+            & li{
+                background-color: transparent;
+                position: relative;
+                bottom: 20px;
+                display: block;
+
+                & a{
+                    font-size: 15px;
+                }
+            }
+        }
+    }
+}
+
+body {
+    background-color: $background-color_2;
+}
+
+.accueil {
+    height: auto;
+    text-align: center;
+
+    & .annonce {
+        padding: 5%;
+        margin-top: 3.5%;
+        display: inline-block;
+        background-color: $background-color_3;
+        border-radius: 5%;
+        color: $color_1;
+        font-size: 200%;
+        font-family: $font-family_2;
+        letter-spacing: 5px;
+        font-weight: bold;
+        width: 50%;
+    }
+}
+
+@mixin checkbox_inscription() {
+    width: 20px;
+    height: 20px;
+    border: 1px solid black;
+    position: relative;
+    left: 60px;
+    top: 18.5px;
+    border-radius: 25%;
+    cursor: pointer;
+    background-color: white;
+}
+
+
+.inscription {
+    height: 100vh;
+
+    & .background {
+        position: relative;
+        z-index: -1;
+        text-align: center;
+        color: $color_1;
+        font-family: $font-family_2;
+        font-size: 350%;
+        font-weight: bold;
+        margin: 30px 0;
+        filter: blur(2.5px);
+        @include no_copy_past();
+    }
+
+    & form {
+        text-align: center;
+        background: rgba(0, 0, 0, 0.06);
+        border-radius: 5%;
+        box-shadow: 20px 20px 22px rgba(255, 255, 255, 0.2);
+        display: inline-block;
+        padding: 5%;
+        margin-top: 5rem;
+        left: 50%;
+        position: relative;
+        transform: translateX(-50%);
+        overflow-wrap: break-word;
+
+        & .input-password {
+            position: relative;
+
+            & .password-icon {
+                color: $background-color_1;
+                display: flex;
+                transform: translateY(-110%);
+                right: 10px;
+                position: absolute;
+                background: #fff;
+                padding-left: 5px;
+
+                & .feather-eye-off {
+                    display: none
+                }
+
+                &:hover {
+                    cursor: pointer;
+                }
+            }
+
+            & .show-password {
+                position: relative;
+                display: inline-block;
+            }
+
+            & .password {
+                padding-right: 40px;
+            }
+        }
+
+        & .input {
+            padding-bottom: 5%;
+
+            & p {
+                color: $color_1;
+                font-weight: bold;
+                font-size: 20px;
+                margin-bottom: 5px;
+            }
+
+            & input {
+                width: 270px;
+                outline: none;
+                border: none;
+                border-radius: 20px;
+                padding-left: 15px;
+                padding-right: 5px;
+                height: 30px;
+                font-weight: bold;
+                overflow: hidden;
+                color: $color_2;
+                font-size: 20px;
+                border-width: 10px;
+
+                &::placeholder {
+                    font-family: Arial, sans-serif;
+                    font-size: 20px;
+                }
+            }
+
+            & input[type="password"] {
+                font-family: "verdana";
+                font-size: 23.5px;
+
+                &::placeholder {
+                    position: absolute;
+                    margin-top: 3px;
+                }
+            }
+        }
+
+        & .logo {
+            display: inline-block;
+            font-family: $font-family_2;
+            background-color: $background-color_3;
+            color: $color_1;
+            font-size: 200%;
+            font-weight: bold;
+            border-radius: 10%;
+            padding: 5%;
+            letter-spacing: 0.5vw;
+        }
+
+        & button.submit {
+            border: none;
+            margin-top: 20%;
+            background-color: $background-color_3;
+            padding: 10px;
+            border-radius: 50px;
+            color: $color_1;
+            font-size: 125%;
+            font-weight: bold;
+            text-align: center;
+            cursor: pointer;
+            position: relative;
+
+
+            &:hover {
+                background-color: $background-color_4;
+                color: $color_2;
+            }
+        }
+
+        & .google-logo{
+            position: absolute;
+            bottom: 30px;
+            background-color: white;
+            width: 42px;
+            height: 40px;
+            border-radius: 50px;
+            border-right: 2px solid white;
+            margin-left: 7.5%;
+            margin-bottom: 90px;
+        }
+
+        & .checkbox-on{
+            color: $background_color_1;
+            font-size: 30px;
+            @include center_all();
+        }
+
+        & .checkbox{
+            @include checkbox_inscription();
+            @include no_copy_past();
+        }
+
+        & .input-checkbox{
+            display: none;
+        }
+    }
+}

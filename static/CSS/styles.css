@@ -1,0 +1,238 @@
+@import "https://fonts.googleapis.com/css2?family=Tangerine&display=swap";
+@import url("https://fonts.cdnfonts.com/css/verdana");
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+ul.menu {
+  background-color: #BC16F1;
+  display: flex;
+  justify-content: space-around;
+  height: 7.5vh;
+}
+ul.menu li {
+  display: inline-block;
+  font-family: "Arial", sans-serif;
+  font-size: 150%;
+  font-weight: bold;
+  background-color: #BC16F1;
+}
+ul.menu li a {
+  text-decoration: none;
+  color: white;
+  position: relative;
+  top: 8.5px;
+}
+ul.menu li.profile img {
+  max-width: 40px;
+  height: auto;
+  margin-left: 30px;
+  border-radius: 100%;
+  background-color: #BC16F1;
+  position: relative;
+  top: 3px;
+  cursor: pointer;
+}
+ul.menu li.profile .menu-profile {
+  list-style-type: none;
+  position: relative;
+  bottom: 2.5px;
+  border-radius: 20px;
+  text-align: center;
+  background-color: #BC16F1;
+  justify-content: space-around;
+  padding: 5px 10px;
+}
+ul.menu li.profile .menu-profile li {
+  background-color: transparent;
+  position: relative;
+  bottom: 20px;
+  display: block;
+}
+ul.menu li.profile .menu-profile li a {
+  font-size: 15px;
+}
+
+body {
+  background-color: #8235A1;
+}
+
+.accueil {
+  height: auto;
+  text-align: center;
+}
+.accueil .annonce {
+  padding: 5%;
+  margin-top: 3.5%;
+  display: inline-block;
+  background-color: #C034ED;
+  border-radius: 5%;
+  color: white;
+  font-size: 200%;
+  font-family: "Tangerine", "Arial", sans-serif;
+  letter-spacing: 5px;
+  font-weight: bold;
+  width: 50%;
+}
+
+.inscription {
+  height: 100vh;
+}
+.inscription .background {
+  position: relative;
+  z-index: -1;
+  text-align: center;
+  color: white;
+  font-family: "Tangerine", "Arial", sans-serif;
+  font-size: 350%;
+  font-weight: bold;
+  margin: 30px 0;
+  filter: blur(2.5px);
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+.inscription form {
+  text-align: center;
+  background: rgba(0, 0, 0, 0.06);
+  border-radius: 5%;
+  box-shadow: 20px 20px 22px rgba(255, 255, 255, 0.2);
+  display: inline-block;
+  padding: 5%;
+  margin-top: 5rem;
+  left: 50%;
+  position: relative;
+  transform: translateX(-50%);
+  overflow-wrap: break-word;
+}
+.inscription form .input-password {
+  position: relative;
+}
+.inscription form .input-password .password-icon {
+  color: #BC16F1;
+  display: flex;
+  transform: translateY(-110%);
+  right: 10px;
+  position: absolute;
+  background: #fff;
+  padding-left: 5px;
+}
+.inscription form .input-password .password-icon .feather-eye-off {
+  display: none;
+}
+.inscription form .input-password .password-icon:hover {
+  cursor: pointer;
+}
+.inscription form .input-password .show-password {
+  position: relative;
+  display: inline-block;
+}
+.inscription form .input-password .password {
+  padding-right: 40px;
+}
+.inscription form .input {
+  padding-bottom: 5%;
+}
+.inscription form .input p {
+  color: white;
+  font-weight: bold;
+  font-size: 20px;
+  margin-bottom: 5px;
+}
+.inscription form .input input {
+  width: 270px;
+  outline: none;
+  border: none;
+  border-radius: 20px;
+  padding-left: 15px;
+  padding-right: 5px;
+  height: 30px;
+  font-weight: bold;
+  overflow: hidden;
+  color: #C034ED;
+  font-size: 20px;
+  border-width: 10px;
+}
+.inscription form .input input::placeholder {
+  font-family: Arial, sans-serif;
+  font-size: 20px;
+}
+.inscription form .input input[type=password] {
+  font-family: "verdana";
+  font-size: 23.5px;
+}
+.inscription form .input input[type=password]::placeholder {
+  position: absolute;
+  margin-top: 3px;
+}
+.inscription form .logo {
+  display: inline-block;
+  font-family: "Tangerine", "Arial", sans-serif;
+  background-color: #C034ED;
+  color: white;
+  font-size: 200%;
+  font-weight: bold;
+  border-radius: 10%;
+  padding: 5%;
+  letter-spacing: 0.5vw;
+}
+.inscription form button.submit {
+  border: none;
+  margin-top: 20%;
+  background-color: #C034ED;
+  padding: 10px;
+  border-radius: 50px;
+  color: white;
+  font-size: 125%;
+  font-weight: bold;
+  text-align: center;
+  cursor: pointer;
+  position: relative;
+}
+.inscription form button.submit:hover {
+  background-color: white;
+  color: #C034ED;
+}
+.inscription form .google-logo {
+  position: absolute;
+  bottom: 30px;
+  background-color: white;
+  width: 42px;
+  height: 40px;
+  border-radius: 50px;
+  border-right: 2px solid white;
+  margin-left: 7.5%;
+  margin-bottom: 90px;
+}
+.inscription form .checkbox-on {
+  color: #BC16F1;
+  font-size: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+.inscription form .checkbox {
+  width: 20px;
+  height: 20px;
+  border: 1px solid black;
+  position: relative;
+  left: 60px;
+  top: 18.5px;
+  border-radius: 25%;
+  cursor: pointer;
+  background-color: white;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+.inscription form .input-checkbox {
+  display: none;
+}
+
+/*# sourceMappingURL=styles.css.map */
