@@ -38,6 +38,10 @@ def get_actual_route(request):
     return "/" + "/".join(request.url.split("/")[3:])
 
 
+def verif_actual_route():
+    return get_actual_route(request) in get_all_routes()
+
+
 @app.route("/")
 def index():
     return render_template("index.html")
@@ -45,14 +49,12 @@ def index():
 
 @app.before_request
 def before_request():
-    if not session.get("stay") and get_actual_route(request) in get_all_routes():
+    if not session.get("stay") and verif_actual_route():
         if session.get("last_time"):
-            current_time = time.time()
-            time_difference = current_time - session.get("last_time")
-            print(time_difference)
-            if time_difference > 60 * 60 * 10:
-                if "session" in session:
-                    del session["account"]
+            time_difference = time.time() - session.get("last_time")
+            time_limit = 60 * 60 * 10
+            if time_difference > time_limit and "account" in session:
+                del session["account"]
         session["last_time"] = time.time()
     g.year = datetime.now().year
 
@@ -60,8 +62,6 @@ def before_request():
 @app.route("/inscription/", methods=["GET", "POST"])
 def inscription():
     account_manager = Account_manager()
-    names = account_manager.get_all_names()
-    emails = account_manager.get_all_emails()
 
     if request.method == "POST":
         get_input = request.form.get
@@ -69,9 +69,8 @@ def inscription():
         email = get_input("email")
         password = get_input("password")
         stay_connect = get_input("checkbox") == "true"
-        verif = verif_password(password)
-        error = ""
-        if not verif:
+        error = verif_password(password)
+        if not error:
             if name != name.title():
                 error = "Votre nom n'a pas de majuscule(ex à mettre: Titi, Grominet)"
             elif account_manager.verif_email(email) or account_manager.verif_account(
@@ -80,8 +79,6 @@ def inscription():
                 error = "Ce compte existe déjà"
             elif account_manager.verif_name(name):
                 error = "Ce nom existe déjà"
-        else:
-            error = verif
         if not error:
             session["account"] = account_manager.add_account(name, email, password)
             session["stay"] = stay_connect
@@ -93,23 +90,18 @@ def inscription():
 @app.route("/connexion/", methods=["GET", "POST"])
 def connexion():
     account_manager = Account_manager()
-    names = account_manager.get_all_names()
-    emails = account_manager.get_all_emails()
 
     if request.method == "POST":
         get_input = request.form.get
         email = get_input("email")
         password = get_input("password")
         stay_connect = get_input("checkbox") == "true"
-        verif = verif_password(password)
-        error = ""
-        if not verif and (
+        error = verif_password(password)
+        if not error and (
             not account_manager.verif_email(email)
             or not account_manager.verif_account(email, password)
         ):
             error = "Ce compte n'existe pas"
-        else:
-            error = verif
         if not error:
             session["account"] = account_manager.to_dict(email, password)
             session["stay"] = stay_connect
@@ -121,8 +113,7 @@ def connexion():
 @app.route("/login/<provider>/")
 def oauth_login(provider):
     if provider not in ["google", "instagram"]:
-        # Gérer les cas où le fournisseur n'est pas pris en charge
-        abort(404)  # Ou renvoyer une erreur appropriée
+        abort(404)
 
     oauth_provider = getattr(oauth, provider)
     return oauth_provider.authorize_redirect(

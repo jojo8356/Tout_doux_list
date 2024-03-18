@@ -27,33 +27,49 @@ ul.menu li a {
   top: 8.5px;
 }
 ul.menu li.profile img {
-  max-width: 40px;
+  max-width: 49px;
+  padding: 4px;
   height: auto;
   margin-left: 30px;
-  border-radius: 100%;
+  border-radius: 10px;
   background-color: #BC16F1;
   position: relative;
-  top: 3px;
+  bottom: 2px;
   cursor: pointer;
+}
+ul.menu li.profile img:hover {
+  background-color: #9a0cc8;
 }
 ul.menu li.profile .menu-profile {
   list-style-type: none;
-  position: relative;
-  bottom: 2.5px;
-  border-radius: 20px;
-  text-align: center;
-  background-color: #BC16F1;
-  justify-content: space-around;
-  padding: 5px 10px;
+  position: absolute;
+  bottom: 397.5px;
+  margin-left: -20px;
 }
 ul.menu li.profile .menu-profile li {
-  background-color: transparent;
-  position: relative;
-  bottom: 20px;
-  display: block;
+  background-color: #BC16F1;
+  width: 150px;
+  text-align: center;
+}
+ul.menu li.profile .menu-profile li.first {
+  border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
+}
+ul.menu li.profile .menu-profile li.last {
+  border-bottom-left-radius: 20px;
+  border-bottom-right-radius: 20px;
 }
 ul.menu li.profile .menu-profile li a {
-  font-size: 15px;
+  display: block;
+  text-decoration: none;
+  color: white;
+  width: 100%;
+  padding: 10px 0;
+  margin-bottom: 20px;
+  font-size: 17.5px;
+}
+ul.menu li.profile .menu-profile li:hover {
+  background-color: #9a0cc8;
 }
 
 body {
@@ -200,12 +216,10 @@ body {
 .inscription form .google-logo {
   position: absolute;
   bottom: 30px;
-  background-color: white;
-  width: 42px;
-  height: 40px;
+  background-color: transparent;
+  width: 40px;
   border-radius: 50px;
-  border-right: 2px solid white;
-  margin-left: 7.5%;
+  margin-left: 50px;
   margin-bottom: 90px;
 }
 .inscription form .checkbox-on {
