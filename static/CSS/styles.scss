@@ -35,20 +35,35 @@ ul.menu {
     background-color: $background-color_1;
     display: flex;
     justify-content: space-around;
-    height: 7.5vh;
+    height: 55px;
 
     & li {
         display: inline-block;
         font-family: $font-family_1;
         font-size: 150%;
         font-weight: bold;
-        background-color: $background-color_1;
+        background-color: transparent;
 
         & a {
             text-decoration: none;
             color: $color_1;
             position: relative;
-            top: 8.5px;
+        }
+
+        &:not(.account){
+            position: relative;
+            top: 12px;
+        }
+
+        &.account{
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            bottom: 2.5px;
+
+            & a.inscription{
+                border-bottom: 4px solid white;
+            }
         }
     }
 

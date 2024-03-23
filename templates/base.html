@@ -4,7 +4,6 @@
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='CSS/styles.css') }}">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 	<title>{% block title%}{% endblock %}</title>
 </head>
 <header>
@@ -19,10 +18,8 @@
         	<a href="/contact" class="menu">Contact</a>
         </li>
         {% if not session.get("account") %}
-			<li>
-				<a href="/inscription" class="menu">Inscription</a>
-			</li>
-			<li>
+			<li class="account">
+				<a href="/inscription" class="menu inscription">Inscription</a>
 				<a href="/connexion" class="menu">Connexion</a>
 			</li>
 		{% else %}

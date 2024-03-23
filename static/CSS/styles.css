@@ -11,20 +11,32 @@ ul.menu {
   background-color: #BC16F1;
   display: flex;
   justify-content: space-around;
-  height: 7.5vh;
+  height: 55px;
 }
 ul.menu li {
   display: inline-block;
   font-family: "Arial", sans-serif;
   font-size: 150%;
   font-weight: bold;
-  background-color: #BC16F1;
+  background-color: transparent;
 }
 ul.menu li a {
   text-decoration: none;
   color: white;
   position: relative;
-  top: 8.5px;
+}
+ul.menu li:not(.account) {
+  position: relative;
+  top: 12px;
+}
+ul.menu li.account {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  bottom: 2.5px;
+}
+ul.menu li.account a.inscription {
+  border-bottom: 4px solid white;
 }
 ul.menu li.profile img {
   max-width: 49px;
