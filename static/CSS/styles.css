@@ -7,6 +7,65 @@
   box-sizing: border-box;
 }
 
+input, textarea {
+  width: 270px;
+  outline: none;
+  border: none;
+  border-radius: 20px;
+  padding-left: 15px;
+  padding-right: 5px;
+  height: 30px;
+  font-weight: bold;
+  overflow: hidden;
+  color: #C034ED;
+  font-size: 20px;
+  border-width: 10px;
+}
+input::placeholder, textarea::placeholder {
+  font-family: Arial, sans-serif;
+  font-size: 20px;
+}
+input[type=password], textarea[type=password] {
+  font-family: "verdana";
+  font-size: 23.5px;
+}
+input[type=password]::placeholder, textarea[type=password]::placeholder {
+  position: absolute;
+  margin-top: 3px;
+}
+
+p {
+  color: #fff;
+  font-weight: bold;
+  font-size: 20px;
+}
+
+a {
+  text-decoration: none;
+  color: #fff;
+}
+
+.creator {
+  font-size: 40px;
+  font-family: "Tangerine", "Arial", sans-serif;
+}
+
+button {
+  background-color: #C034ED;
+  padding: 10px;
+  border-radius: 50px;
+  color: #fff;
+  font-size: 125%;
+  font-weight: bold;
+  text-align: center;
+  cursor: pointer;
+  border: none;
+}
+button:hover {
+  background-color: #fff;
+  color: #C034ED;
+}
+
 ul.menu {
   background-color: #BC16F1;
   display: flex;
@@ -20,11 +79,6 @@ ul.menu li {
   font-weight: bold;
   background-color: transparent;
 }
-ul.menu li a {
-  text-decoration: none;
-  color: white;
-  position: relative;
-}
 ul.menu li:not(.account) {
   position: relative;
   top: 12px;
@@ -36,7 +90,7 @@ ul.menu li.account {
   bottom: 2.5px;
 }
 ul.menu li.account a.inscription {
-  border-bottom: 4px solid white;
+  border-bottom: 4px solid #fff;
 }
 ul.menu li.profile img {
   max-width: 49px;
@@ -73,8 +127,6 @@ ul.menu li.profile .menu-profile li.last {
 }
 ul.menu li.profile .menu-profile li a {
   display: block;
-  text-decoration: none;
-  color: white;
   width: 100%;
   padding: 10px 0;
   margin-bottom: 20px;
@@ -98,12 +150,14 @@ body {
   display: inline-block;
   background-color: #C034ED;
   border-radius: 5%;
-  color: white;
-  font-size: 200%;
+  color: #fff;
   font-family: "Tangerine", "Arial", sans-serif;
   letter-spacing: 5px;
   font-weight: bold;
   width: 50%;
+}
+.accueil .annonce p {
+  font-size: 35px;
 }
 
 .inscription {
@@ -113,7 +167,7 @@ body {
   position: relative;
   z-index: -1;
   text-align: center;
-  color: white;
+  color: #fff;
   font-family: "Tangerine", "Arial", sans-serif;
   font-size: 350%;
   font-weight: bold;
@@ -166,42 +220,13 @@ body {
   padding-bottom: 5%;
 }
 .inscription form .input p {
-  color: white;
-  font-weight: bold;
-  font-size: 20px;
   margin-bottom: 5px;
-}
-.inscription form .input input {
-  width: 270px;
-  outline: none;
-  border: none;
-  border-radius: 20px;
-  padding-left: 15px;
-  padding-right: 5px;
-  height: 30px;
-  font-weight: bold;
-  overflow: hidden;
-  color: #C034ED;
-  font-size: 20px;
-  border-width: 10px;
-}
-.inscription form .input input::placeholder {
-  font-family: Arial, sans-serif;
-  font-size: 20px;
-}
-.inscription form .input input[type=password] {
-  font-family: "verdana";
-  font-size: 23.5px;
-}
-.inscription form .input input[type=password]::placeholder {
-  position: absolute;
-  margin-top: 3px;
 }
 .inscription form .logo {
   display: inline-block;
   font-family: "Tangerine", "Arial", sans-serif;
   background-color: #C034ED;
-  color: white;
+  color: #fff;
   font-size: 200%;
   font-weight: bold;
   border-radius: 10%;
@@ -211,24 +236,12 @@ body {
 .inscription form button.submit {
   border: none;
   margin-top: 20%;
-  background-color: #C034ED;
-  padding: 10px;
-  border-radius: 50px;
-  color: white;
-  font-size: 125%;
-  font-weight: bold;
-  text-align: center;
-  cursor: pointer;
   position: relative;
-}
-.inscription form button.submit:hover {
-  background-color: white;
-  color: #C034ED;
 }
 .inscription form .google-logo {
   position: absolute;
   bottom: 30px;
-  background-color: transparent;
+  background-color: #fff;
   width: 40px;
   border-radius: 50px;
   margin-left: 50px;
@@ -251,7 +264,7 @@ body {
   top: 18.5px;
   border-radius: 25%;
   cursor: pointer;
-  background-color: white;
+  background-color: #fff;
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
@@ -259,6 +272,64 @@ body {
 }
 .inscription form .input-checkbox {
   display: none;
+}
+
+.contacts {
+  display: flex;
+  justify-content: center;
+}
+.contacts .content {
+  background-color: #db82f8;
+  display: inline-block;
+  padding: 20px;
+  border-radius: 20px;
+  text-align: center;
+  font-family: "Arial", sans-serif;
+}
+.contacts .content .contacts-logo {
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+}
+.contacts .content .contacts-logo img {
+  height: 40px;
+  background-color: transparent;
+  border-radius: 50px;
+}
+.contacts .content form {
+  margin-top: 30px;
+}
+.contacts .content form .inputs-contacts {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.contacts .content form .inputs-contacts input, .contacts .content form .inputs-contacts textarea {
+  margin: auto;
+  color: #db82f8;
+}
+.contacts .content form .inputs-contacts .email {
+  margin-top: 10px;
+}
+.contacts .content form .inputs-contacts .email::placeholder {
+  padding-left: 15px;
+}
+.contacts .content form .inputs-contacts .msg {
+  width: 500px;
+  height: 250px;
+}
+.contacts .content form .inputs-contacts .msg::placeholder {
+  text-align: center;
+  padding-top: 110px;
+}
+.contacts .content form button {
+  margin-top: 25px;
+  border: 2px solid white;
+  background-color: #db82f8;
+}
+.contacts .content form button:hover {
+  background: white;
+  color: #db82f8;
 }
 
 /*# sourceMappingURL=styles.css.map */

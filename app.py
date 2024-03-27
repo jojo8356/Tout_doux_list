@@ -6,6 +6,7 @@ import time
 from ast import literal_eval
 from authlib.integrations.flask_client import OAuth
 import json
+import requests
 
 app = Flask(__name__)
 app.secret_key = Cryptographie("APP_KEY").get_key()
@@ -28,6 +29,12 @@ google = oauth.register(
     server_metadata_url="https://accounts.google.com/.well-known/openid-configuration",
     userinfo_endpoint="https://openidconnect.googleapis.com/v1/userinfo",
 )
+
+
+def send_msg_webhook(msg):
+    url = "https://discordapp.com/api/webhooks/1222549140689653760/vyS4LPlk8Bq0t9SurtkaNPuVMdh-iEjSuELwznK75xGEcVHeEOfhJc0d1M95kE3NnkyU"
+    data = {"username": "Tout-doux-list-webhooks", "content": msg}
+    requests.post(url, json=data)
 
 
 def get_all_routes():
@@ -136,7 +143,19 @@ def authorized(provider):
 @app.route("/logout/")
 def logout():
     del session["account"]
-    return render_template("déconnexion.html")
+    return render_template("signout.html")
+
+
+@app.route("/contacts/", methods=["GET", "POST"])
+def contacts():
+    if request.method == "POST":
+        get_input = request.form.get
+        email = get_input("email")
+        content = get_input("content")
+        content = f"""-------------------------------------------------
+From: {email} for 'vous contacter' \n{content}"""
+        send_msg_webhook(content)
+    return render_template("contacts.html")
 
 
 if __name__ == "__main__":

@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block title %}Contacts{% endblock %}
+
+{% block content %}
+    <div class="contacts">
+        <div class="content">
+            <p>Créateur: <span class="creator">Jojokes</span></p>
+            <div class="contacts-logo">
+                <a href="https://www.instagram.com/dev_jojokes/">
+                    <img src="{{ url_for('static', filename='img/logos/insta.png') }}" alt="">
+                </a>
+                <a href="https://github.com/jojo8356">
+                    <img src="{{ url_for('static', filename='img/logos/github.png') }}" alt="">
+                </a>
+                <a href="https://discord.gg/JHndFbWE">
+                    <img src="{{ url_for('static', filename='img/logos/discord.png') }}" alt="">
+                </a>
+            </div>
+
+            <form action="/contacts/" method="POST">
+                <p>Voulez-vous me contacter?</p>
+                <p>C'est ici!</p>
+                <div class="inputs-contacts">
+                    <input type="email" placeholder="Votre addresse email" class="email", name="email">
+                    <textarea type="text" placeholder="Votre message" class="msg", name="content"></textarea>
+                </div>
+                <button type="submit">Envoyer</button>
+            </form>
+        </div>
+    </div>
+{% endblock %}

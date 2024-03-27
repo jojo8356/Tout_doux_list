@@ -1,11 +1,12 @@
-$color_1: white;
+$color_1: #fff;
 $color_2: #C034ED;
+$color_3: #BC16F1;
+$color_4: #8235A1;
+$color_5: transparent;
+$color_6: darken($color_3, 10%);
+$color_7: lighten($color_3, 22.5%);
 $font-family_1: "Arial", sans-serif;
 $font-family_2: "Tangerine", "Arial", sans-serif;
-$background-color_1: #BC16F1;
-$background-color_2: #8235A1;
-$background-color_3: #C034ED;
-$background-color_4: white;
 
 @import "https://fonts.googleapis.com/css2?family=Tangerine&display=swap";
 @import url('https://fonts.cdnfonts.com/css/verdana');
@@ -31,8 +32,71 @@ $background-color_4: white;
     box-sizing: border-box;
 }
 
+input, textarea{
+    width: 270px;
+    outline: none;
+    border: none;
+    border-radius: 20px;
+    padding-left: 15px;
+    padding-right: 5px;
+    height: 30px;
+    font-weight: bold;
+    overflow: hidden;
+    color: $color_2;
+    font-size: 20px;
+    border-width: 10px;
+
+    &::placeholder {
+        font-family: Arial, sans-serif;
+        font-size: 20px;
+    }
+
+    &[type="password"] {
+        font-family: "verdana";
+        font-size: 23.5px;
+
+        &::placeholder {
+            position: absolute;
+            margin-top: 3px;
+        }
+    }
+}
+
+p {
+    color: $color_1;
+    font-weight: bold;
+    font-size: 20px;
+}
+
+a{
+    text-decoration: none;
+    color: $color_1;
+}
+
+.creator{
+    font-size: 40px;
+    font-family: $font-family_2;
+}
+
+button{
+    background-color: $color_2;
+    padding: 10px;
+    border-radius: 50px;
+    color: $color_1;
+    font-size: 125%;
+    font-weight: bold;
+    text-align: center;
+    cursor: pointer;
+    border: none;
+
+    &:hover {
+        background-color: $color_1;
+        color: $color_2;
+    }
+}
+
 ul.menu {
-    background-color: $background-color_1;
+    background-color: $color_3;
     display: flex;
     justify-content: space-around;
     height: 55px;
@@ -42,13 +106,7 @@ ul.menu {
         font-family: $font-family_1;
         font-size: 150%;
         font-weight: bold;
-        background-color: transparent;
-
-        & a {
-            text-decoration: none;
-            color: $color_1;
-            position: relative;
-        }
+        background-color: $color_5;
 
         &:not(.account){
             position: relative;
@@ -62,7 +120,7 @@ ul.menu {
             bottom: 2.5px;
 
             & a.inscription{
-                border-bottom: 4px solid white;
+                border-bottom: 4px solid $color_1;
             }
         }
     }
@@ -75,14 +133,14 @@ ul.menu {
             height: auto;
             margin-left: 30px;
             border-radius: 10px;
-            background-color: $background-color_1;
+            background-color: $color_3;
             position: relative;
             bottom: 2px;
             cursor: pointer;
         }
 
         & img:hover{
-            background-color: darken($background-color_1, 10%);
+            background-color: $color_6;
         }
 
         & .menu-profile{
@@ -92,7 +150,7 @@ ul.menu {
             margin-left: -20px;
 
             & li{
-                background-color: $background-color_1;
+                background-color: $color_3;
                 width: 150px;
                 text-align: center;
 
@@ -108,8 +166,6 @@ ul.menu {
 
                 & a {
                     display: block;
-                    text-decoration: none;
-                    color: white;
                     width: 100%;
                     padding: 10px 0;
                     margin-bottom: 20px;
@@ -117,7 +173,7 @@ ul.menu {
                 }
 
                 &:hover{
-                    background-color: darken($background-color_1, 10%);
+                    background-color: $color_6;
                 }
             }
         }
@@ -125,7 +181,7 @@ ul.menu {
 }
 
 body {
-    background-color: $background-color_2;
+    background-color: $color_4;
 }
 
 .accueil {
@@ -136,14 +192,17 @@ body {
         padding: 5%;
         margin-top: 3.5%;
         display: inline-block;
-        background-color: $background-color_3;
+        background-color: $color_2;
         border-radius: 5%;
         color: $color_1;
-        font-size: 200%;
         font-family: $font-family_2;
         letter-spacing: 5px;
         font-weight: bold;
         width: 50%;
+
+        & p{
+            font-size: 35px;
+        }
     }
 }
 
@@ -156,7 +215,7 @@ body {
     top: 18.5px;
     border-radius: 25%;
     cursor: pointer;
-    background-color: white;
+    background-color: $color_1;
 }
 
 
@@ -193,7 +252,7 @@ body {
             position: relative;
 
             & .password-icon {
-                color: $background-color_1;
+                color: $color_3;
                 display: flex;
                 transform: translateY(-110%);
                 right: 10px;
@@ -224,47 +283,14 @@ body {
             padding-bottom: 5%;
 
             & p {
-                color: $color_1;
-                font-weight: bold;
-                font-size: 20px;
                 margin-bottom: 5px;
-            }
-
-            & input {
-                width: 270px;
-                outline: none;
-                border: none;
-                border-radius: 20px;
-                padding-left: 15px;
-                padding-right: 5px;
-                height: 30px;
-                font-weight: bold;
-                overflow: hidden;
-                color: $color_2;
-                font-size: 20px;
-                border-width: 10px;
-
-                &::placeholder {
-                    font-family: Arial, sans-serif;
-                    font-size: 20px;
-                }
-            }
-
-            & input[type="password"] {
-                font-family: "verdana";
-                font-size: 23.5px;
-
-                &::placeholder {
-                    position: absolute;
-                    margin-top: 3px;
-                }
             }
         }
 
         & .logo {
             display: inline-block;
             font-family: $font-family_2;
-            background-color: $background-color_3;
+            background-color: $color_2;
             color: $color_1;
             font-size: 200%;
             font-weight: bold;
@@ -276,27 +302,13 @@ body {
         & button.submit {
             border: none;
             margin-top: 20%;
-            background-color: $background-color_3;
-            padding: 10px;
-            border-radius: 50px;
-            color: $color_1;
-            font-size: 125%;
-            font-weight: bold;
-            text-align: center;
-            cursor: pointer;
             position: relative;
-
-
-            &:hover {
-                background-color: $background-color_4;
-                color: $color_2;
-            }
         }
 
         & .google-logo{
             position: absolute;
             bottom: 30px;
-            background-color: transparent;
+            background-color: $color_1;
             width: 40px;
             border-radius: 50px;
             margin-left: 50px;
@@ -304,7 +316,7 @@ body {
         }
 
         & .checkbox-on{
-            color: $background_color_1;
+            color: $color_3;
             font-size: 30px;
             @include center_all();
         }
@@ -316,6 +328,76 @@ body {
 
         & .input-checkbox{
             display: none;
+        }
+    }
+}
+
+.contacts{
+    display: flex;
+    justify-content: center;
+
+    .content{
+        background-color: $color_7;
+        display: inline-block;
+        padding: 20px;
+        border-radius: 20px;
+        text-align: center;
+        font-family: $font-family_1;
+
+        & .contacts-logo{
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+
+            & img{
+                height: 40px;
+                background-color: transparent;
+                border-radius: 50px;
+            }
+        }
+
+        & form{
+            margin-top: 30px;
+
+            & .inputs-contacts{
+                display: flex;
+                flex-direction: column;
+                gap: 10px;
+
+                & input, textarea{
+                    margin: auto;
+                    color: $color_7;
+                }
+
+                & .email{
+                    margin-top: 10px;
+
+                    &::placeholder{
+                        padding-left: 15px;
+                    }
+                }
+                
+                & .msg{
+                    width: 500px;
+                    height: 250px;
+
+                    &::placeholder{
+                        text-align: center;
+                        padding-top: 110px;
+                    }
+                }
+            }
+
+            & button{
+                margin-top: 25px;
+                border: 2px solid white;
+                background-color: $color_7;
+
+                &:hover{
+                    background: white;
+                    color: $color_7;
+                }
+            }
         }
     }
 }
