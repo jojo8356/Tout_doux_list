@@ -49,11 +49,6 @@ def verif_actual_route():
     return get_actual_route(request) in get_all_routes()
 
 
-@app.route("/")
-def index():
-    return render_template("index.html")
-
-
 @app.before_request
 def before_request():
     if not session.get("stay") and verif_actual_route():
@@ -64,6 +59,11 @@ def before_request():
                 del session["account"]
         session["last_time"] = time.time()
     g.year = datetime.now().year
+
+
+@app.route("/")
+def index():
+    return render_template("index.html")
 
 
 @app.route("/inscription/", methods=["GET", "POST"])

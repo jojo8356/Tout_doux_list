@@ -222,13 +222,13 @@ body {
 .inscription {
     height: 100vh;
 
-    & .background {
+    & .background p{
         position: relative;
         z-index: -1;
         text-align: center;
         color: $color_1;
         font-family: $font-family_2;
-        font-size: 350%;
+        font-size: 45px;
         font-weight: bold;
         margin: 30px 0;
         filter: blur(2.5px);
@@ -249,7 +249,9 @@ body {
         overflow-wrap: break-word;
 
         & .input-password {
-            position: relative;
+            & p{
+                margin-left: 50px;
+            }
 
             & .password-icon {
                 color: $color_3;
@@ -279,12 +281,15 @@ body {
             }
         }
 
+        & p {
+            margin-bottom: 5px;
+            display: flex;
+            justify-content: center;
+        }
+
         & .input {
             padding-bottom: 5%;
-
-            & p {
-                margin-bottom: 5px;
-            }
+            text-align: center;
         }
 
         & .logo {
@@ -311,8 +316,8 @@ body {
             background-color: $color_1;
             width: 40px;
             border-radius: 50px;
-            margin-left: 50px;
             margin-bottom: 90px;
+            margin-left: 30px;
         }
 
         & .checkbox-on{

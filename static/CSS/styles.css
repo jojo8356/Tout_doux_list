@@ -163,13 +163,13 @@ body {
 .inscription {
   height: 100vh;
 }
-.inscription .background {
+.inscription .background p {
   position: relative;
   z-index: -1;
   text-align: center;
   color: #fff;
   font-family: "Tangerine", "Arial", sans-serif;
-  font-size: 350%;
+  font-size: 45px;
   font-weight: bold;
   margin: 30px 0;
   filter: blur(2.5px);
@@ -191,8 +191,8 @@ body {
   transform: translateX(-50%);
   overflow-wrap: break-word;
 }
-.inscription form .input-password {
-  position: relative;
+.inscription form .input-password p {
+  margin-left: 50px;
 }
 .inscription form .input-password .password-icon {
   color: #BC16F1;
@@ -216,11 +216,14 @@ body {
 .inscription form .input-password .password {
   padding-right: 40px;
 }
+.inscription form p {
+  margin-bottom: 5px;
+  display: flex;
+  justify-content: center;
+}
 .inscription form .input {
   padding-bottom: 5%;
-}
-.inscription form .input p {
-  margin-bottom: 5px;
+  text-align: center;
 }
 .inscription form .logo {
   display: inline-block;
@@ -244,8 +247,8 @@ body {
   background-color: #fff;
   width: 40px;
   border-radius: 50px;
-  margin-left: 50px;
   margin-bottom: 90px;
+  margin-left: 30px;
 }
 .inscription form .checkbox-on {
   color: #BC16F1;
