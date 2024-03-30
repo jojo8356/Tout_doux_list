@@ -1,16 +1,10 @@
-"""File for manage tools for the main program (app.py) and model (model.py)"""
-import os
-from cryptography.fernet import Fernet
+"""Function and class toolbox for the app"""
+
+
+from os import path
+from inspect import currentframe, getframeinfo
 import re
-
-
-# Config errors
-class ErrorDB(Exception):
-    """Customizable error messages for databases"""
-
-    def __init__(self, message="Erreur administrateur"):
-        self.message = message
-        super().__init__(self.message)
+from cryptography.fernet import Fernet
 
 
 # init classes
@@ -25,7 +19,6 @@ class Env:
     def get_all_vars_in_dict(self):
         """Get all variables in dictionary"""
         try:
-            var = []
             dictio = {}
             with open(self.file, "r", encoding="utf-8") as file:
                 txt = file.read()
@@ -35,25 +28,17 @@ class Env:
                     key = key.replace(" ", "")
                     value = value.replace(" ", "")
                     dictio[key] = value
-            if not dictio:
-                return {}
-            return dictio
-        except:
+            return dictio or {}
+        except FileNotFoundError:
             return {}
 
     def get_all_vars_names(self):
         """Get all variables names"""
-        dictio = self.get_all_vars_in_dict()
-        if not dictio:
-            return {}
-        return dictio.keys()
+        return self.get_all_vars_in_dict().keys() or {}
 
     def get_all_vars_values(self):
         """Get all variables values"""
-        dictio = self.get_all_vars_in_dict()
-        if not dictio:
-            return {}
-        return dictio.values()
+        return self.get_all_vars_in_dict().values() or {}
 
     # -Get One-
     def get_var(self, var):
@@ -98,6 +83,7 @@ class Cryptographie:
         dictio = self.env.get_all_vars_in_dict()
         if dictio:
             return dictio.get(self.name)
+        return None
 
     def generate_key(self):
         """Generate key for crypt"""
@@ -120,15 +106,12 @@ class Cryptographie:
 
 def check_file_exists(file_path):
     """Check if file exists"""
-    return os.path.exists(file_path)
+    return path.exists(file_path)
 
 
 def sum_dict(list_of_dicts):
-    """Sum dict"""
-    result = {}
-    for element in list_of_dicts:
-        result.update(element)
-    return result
+    """Sum list of dict to one dict"""
+    return {k: v for d in list_of_dicts for k, v in d.items()}
 
 
 def convert_dict_to_list(dictio):
@@ -137,37 +120,51 @@ def convert_dict_to_list(dictio):
 
 
 def del_doubles(liste):
+    """Removes all duplicates from the list"""
     return list(set(liste))
 
 
 def get_code_file(file):
-    with open(file, "r") as file:
-        code = file.read()
+    """Get code of <file>"""
+    with open(file, "r", encoding="utf-8") as content:
+        code = content.read()
     return code
 
 
 def split_at_first_specific_element(string, element):
+    """Splits the given string at the first occurrence of the specified delimiter"""
     index = string.find(element)
-    if index != -1:
+    if index != len(string) - 1:
         return string[:index], string[(index + 1) :]
-    else:
-        return [string]
+    return [string]
 
 
 def verif_password(password):
+    """Verification of password."""
     if len(password) < 12:
         return "Ton mot de passe est en dessous de 12 caractères"
 
     lowercase = re.compile(r"[a-z]")
     uppercase = re.compile(r"[A-Z]")
     digits = re.compile(r"[0-9]")
-    specialChars = re.compile(r"[$&+,:;=?@#|<>.^*()%!-]")
+    special_chars = re.compile(r"[$&+,:;=?@#|<>.^*()%!-]")
 
-    if not lowercase.search(password):
-        return "Il n'y a pas de minuscules dans ton mot de passe"
-    if not uppercase.search(password):
-        return "Il n'y a pas de majuscules dans ton mot de passe"
-    if not digits.search(password):
-        return "Il n'y a pas de chiffres dans ton mot de passe"
-    if not specialChars.search(password):
-        return "Il n'y a pas de caractères spéciaux dans ton mot de passe"
+    elements = ["minuscules", "majuscules", "chiffres", "caractères spéciaux"]
+    type_letters = [lowercase, uppercase, digits, special_chars]
+
+    for i, element in enumerate(elements):
+        if not type_letters[i].search(password):
+            return f"Il n'y a pas de {element} dans ton mot de passe"
+    return None
+
+
+def get_current_filename():
+    """Get the name of the current file"""
+    frame = currentframe()
+    filename = getframeinfo(frame).filename
+    return filename
+
+
+def get_all_names():
+    names = findall(r'DB\("([^"]+)"\)', get_code_file("models.py"))
+    return del_doubles(names)

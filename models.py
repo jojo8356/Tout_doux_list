@@ -1,11 +1,27 @@
-from ast import literal_eval
-from sqlalchemy import *
+"""Program grouping all DB managers"""
+
+import re
+from sqlalchemy import create_engine, Column, Integer, Text, Boolean
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.ext.declarative import declarative_base
-from tools import *
-import re
+from tools import (
+    Cryptographie,
+    del_doubles,
+    get_code_file,
+    get_current_filename,
+    get_db_names,
+)
+
 
 db = declarative_base
+
+base_account = db()
+base_tdl = db()
+
+base_mapping = {
+    "base_tdl": base_tdl,
+    "base_account": base_account,
+}
 
 
 class DB:
@@ -24,36 +40,36 @@ class DB:
 
     # --Get--
     # -Get One-
-    def get_engine(self):
+    def get_engine(self) -> object:
         """Get engine of ORM"""
         return self.engine
 
-    def get_session(self):
+    def get_session(self) -> object:
         """Get session of ORM"""
         return self.session
 
-    def get_conn(self):
+    def get_conn(self) -> object:
         """Get connexion (conn) of ORM"""
         return self.conn
 
-    def get_name(self):
+    def get_name(self) -> str:
+        """Get name of SQL file"""
         return self.file
 
     # --Others--
-    def exec_sql(self, sql):
+    def exec_sql(self, sql: str):
         """Execute the SQL for commands that are not supported by the ORM."""
         return self.conn.execute(sql)
 
-    def build(self, base):
+    def build(self, base: object):
         """Create all tables defined by base metadata."""
         base.metadata.create_all(self.engine)
 
-    def get_all_names():
-        names = re.findall(r'DB\("([^"]+)"\)', get_code_file("models.py"))
+    @classmethod
+    def get_all_filenames(cls):
+        """Get all names of SQL files"""
+        names = re.findall(r'DB\("([^"]+)"\)', get_code_file(get_current_filename()))
         return del_doubles(names)
-
-
-base_tdl = db()
 
 
 class Todolist(base_tdl):
@@ -76,7 +92,7 @@ class Todolist(base_tdl):
         return f"Name: {self.name}, status: {self.status}"
 
 
-class Todolist_manager:
+class TodolistManager:
     """Tools for class Todolist"""
 
     def __init__(self):
@@ -84,7 +100,7 @@ class Todolist_manager:
         self.engine = self.db.get_engine()
         self.session = self.db.get_session()
         self.all_tasks = self.session.query(Todolist).all()
-        self.all_tasks_names = [x.name for x in self.all_lists]
+        self.all_tasks_names = [x.name for x in self.all_tasks]
 
     # --Get--
     # -Get All-
@@ -99,20 +115,16 @@ class Todolist_manager:
     # -Get One-
     def get_task_by_name(self, name):
         """Get task with/by name"""
-        if self.verif_name(name):
+        if self.verif_task(name):
             index = self.all_tasks_names.index(name)
             return self.all_tasks[index]
         return None
 
     # --Verification--
     # -Verification One-
-    def verif_name(self, name):
+    def verif_task(self, name):
         """Verification of name in list names"""
         return name in self.all_tasks_names
-
-    def verif_task(self, task):
-        """Verification of task in list tasks"""
-        return task in self.all_lists
 
     # --Others--
     def save(self):
@@ -133,7 +145,7 @@ class Todolist_manager:
 
     def change_task_name(self, old_name, new_name):
         """Change the name of task"""
-        task = self.get_task_by_name(name)
+        task = self.get_task_by_name(old_name)
         task.name = new_name
         self.save()
 
@@ -142,9 +154,6 @@ class Todolist_manager:
         task = self.get_task_by_name(name)
         task.status = not task.status
         self.save()
-
-
-base_account = db()
 
 
 class Account(base_account):
@@ -169,121 +178,21 @@ class Account(base_account):
         return f"Name: {self.name}, Email: {self.email}"
 
 
-class Account_manager:
-    def __init__(self):
-        # inits variables db
-        self.db = DB("account.db")
-        self.engine = self.db.get_engine()
-        self.session = self.db.get_session()
-        self.crypto = Cryptographie("ACCOUNT_KEY")
-
-        # DB variables
-        self.accounts = self.session.query(Account).all()
-        self.emails = [account.email for account in self.accounts]
-        self.passwords = [
-            self.crypto.decrypt(account.password) for account in self.accounts
-        ]
-        self.names = [account.name for account in self.accounts]
-
-    # --Get--
-    # -Get All-
-    def get_all_accounts(self):
-        """Get all accounts"""
-        return self.accounts
-
-    def get_all_names(self):
-        """Get all names"""
-        return self.names
-
-    def get_all_emails(self):
-        """Get all emails"""
-        return self.emails
-
-    def get_all_passwords(self):
-        """Get all passwords"""
-        return self.passwords
-
-    # -Get One-
-    def get_account_by_password(self, password):
-        """Get account with/by password"""
-        if self.verif_password(password):
-            index = self.passwords.index(password)
-            return self.accounts[index]
-        return None
-
-    def get_account_by_name(self, name):
-        """Get account with/by name"""
-        if self.verif_name(name):
-            index = self.names.index(name)
-            return self.accounts[index]
-        return None
-
-    # --Verif--
-    # -Verif One-
-    def verif_account(self, email: str, password: str) -> bool:
-        """Verif account with/by verification of args"""
-        if self.verif_password(password) and self.verif_email(email):
-            return self.emails.index(email) == self.passwords.index(password)
-
-    def verif_password(self, password):
-        """Verification of password with/by list of passwords"""
-        return password in self.passwords
-
-    def verif_email(self, email):
-        """Verification of email with/by list of emails"""
-        return email in self.emails
-
-    def verif_name(self, name):
-        """Verification of name with/by list of names"""
-        return name in self.names
-
-    # --Others--
-    def add_account(self, name, email, password):
-        """Add account"""
-        account = Account(name=name, email=email, password=self.crypto.crypt(password))
-        self.session.add(account)
-        self.save()
-        return self.to_dict(account)
-
-    def save(self):
-        """Shortcut command for save."""
-        self.session.commit()
-
-    def change_password(self, old_password, new_password):
-        """Change password"""
-        account = get_account_by_password(old_password)
-        if account:
-            account.password = crypto.crypt(new_password)
-            self.save()
-        else:
-            return f"Ce mot de passe n'existe pas: {old_password}"
-
-    def to_dict(self, email, password):
-        """Convert account to dict for get easily the variables"""
-        return {
-            "password": password,
-            "email": email,
-        }
-
-    def to_dict(self, account):
-        """Convert account to dict for get easily the variables"""
-        return {
-            "name": account.name,
-            "password": account.password,
-            "email": account.email,
-        }
-
-
-def get_bases():
-    code = get_code_file("models.py")
+def get_db_names():
+    """Get all bases"""
+    code = get_code_file(get_current_filename())
     pattern = r"\b(base_[a-zA-Z_][a-zA-Z0-9_]*)\b"
     database_names = re.findall(pattern, code)
-    return database_names
+    return del_doubles(database_names)
 
 
 def run_db():
     """Run DB"""
-    bases = sorted(del_doubles(get_bases()))
-    files = sorted(DB.get_all_names())
-    for base, file in zip(bases, files):
-        DB(file).build(eval(base))
+    bases = sorted(get_db_names())
+    files = sorted(DB.get_all_filenames())
+    for base_name, file in zip(bases, files):
+        base = base_mapping.get(base_name)
+        if base is not None:
+            DB(file).build(base)
+        else:
+            print(f"Warning: Base '{base_name}' not found.")

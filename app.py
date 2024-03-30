@@ -1,12 +1,13 @@
-from flask import *
-from models import *
-from tools import *
+"""Main app of project: Tout doux list"""
+
 from datetime import datetime
-import time
-from ast import literal_eval
+from time import time
+from json import loads, dumps
+from flask import Flask, render_template, request, session, redirect, url_for, abort, g
 from authlib.integrations.flask_client import OAuth
-import json
-import requests
+from requests import post
+from models import AccountManager, run_db
+from tools import verif_password, Cryptographie, Env
 
 app = Flask(__name__)
 app.secret_key = Cryptographie("APP_KEY").get_key()
@@ -32,43 +33,54 @@ google = oauth.register(
 
 
 def send_msg_webhook(msg):
-    url = "https://discordapp.com/api/webhooks/1222549140689653760/vyS4LPlk8Bq0t9SurtkaNPuVMdh-iEjSuELwznK75xGEcVHeEOfhJc0d1M95kE3NnkyU"
+    """Send message to discord server: Tout doux liste"""
+    url = (
+        "https://discordapp.com/api/webhooks/"
+        + "1222549140689653760/vyS4LPlk8Bq0t9SurtkaNPuVMdh-iEjSuELwznK75xGEcVHeEOfhJc0d1M95kE3NnkyU"
+    )
     data = {"username": "Tout-doux-list-webhooks", "content": msg}
-    requests.post(url, json=data)
+    timeout_seconds = 10
+    post(url, json=data, timeout=timeout_seconds)
 
 
 def get_all_routes():
+    """Get all routes"""
     return [rule.rule for rule in app.url_map.iter_rules()][1:]
 
 
-def get_actual_route(request):
-    return "/" + "/".join(request.url.split("/")[3:])
+def get_actual_route(request_):
+    """Get the current route"""
+    return "/" + "/".join(request_.url.split("/")[3:])
 
 
 def verif_actual_route():
+    """Check if the route is the current one"""
     return get_actual_route(request) in get_all_routes()
 
 
 @app.before_request
 def before_request():
+    """Process before all requests"""
     if not session.get("stay") and verif_actual_route():
         if session.get("last_time"):
-            time_difference = time.time() - session.get("last_time")
+            time_difference = time() - session.get("last_time")
             time_limit = 60 * 60 * 10
             if time_difference > time_limit and "account" in session:
                 del session["account"]
-        session["last_time"] = time.time()
+        session["last_time"] = time()
     g.year = datetime.now().year
 
 
 @app.route("/")
 def index():
+    """Page of index (First page)"""
     return render_template("index.html")
 
 
 @app.route("/inscription/", methods=["GET", "POST"])
 def inscription():
-    account_manager = Account_manager()
+    """Page for inscription (with google optionnal)"""
+    account_manager = AccountManager()
 
     if request.method == "POST":
         get_input = request.form.get
@@ -96,7 +108,8 @@ def inscription():
 
 @app.route("/connexion/", methods=["GET", "POST"])
 def connexion():
-    account_manager = Account_manager()
+    """Page for connexion (with google optionnal)"""
+    account_manager = AccountManager()
 
     if request.method == "POST":
         get_input = request.form.get
@@ -110,15 +123,16 @@ def connexion():
         ):
             error = "Ce compte n'existe pas"
         if not error:
-            session["account"] = account_manager.to_dict(email, password)
+            session["account"] = account_manager.to_dict_reduct(email, password)
             session["stay"] = stay_connect
             return redirect("/")
-        return render_template("connexion.html", error=error)
+        return render_template("connexion.html", error=error[0])
     return render_template("connexion.html")
 
 
 @app.route("/login/<provider>/")
 def oauth_login(provider):
+    """Login with google"""
     if provider not in ["google", "instagram"]:
         abort(404)
 
@@ -130,24 +144,26 @@ def oauth_login(provider):
 
 @app.route("/login/<provider>/callback")
 def authorized(provider):
+    """Callback of google connexion"""
     if provider not in ["google", "instagram"]:
         abort(404)
     oauth_provider = getattr(oauth, provider)
-    metadata = oauth_provider.load_server_metadata()
     token = oauth_provider.authorize_access_token()
-    user_info = json.loads(json.dumps(token))["userinfo"]
+    user_info = loads(dumps(token))["userinfo"]
     session["account"] = {"email": user_info["email"]}
     return redirect(url_for("index"))
 
 
 @app.route("/logout/")
 def logout():
+    """Log out of the current account"""
     del session["account"]
     return render_template("signout.html")
 
 
 @app.route("/contacts/", methods=["GET", "POST"])
 def contacts():
+    """Contacts page for sent email"""
     if request.method == "POST":
         get_input = request.form.get
         email = get_input("email")
@@ -156,6 +172,12 @@ def contacts():
 From: {email} for 'vous contacter' \n{content}"""
         send_msg_webhook(content)
     return render_template("contacts.html")
+
+
+@app.route("/todolist/", methods=["GET", "POST"])
+def todolist():
+    """Main Todolist menu"""
+    return render_template("todolist.html")
 
 
 if __name__ == "__main__":
